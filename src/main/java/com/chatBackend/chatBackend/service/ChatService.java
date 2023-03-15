@@ -21,4 +21,9 @@ public class ChatService {
     public List<Chat> findAll(){
         return chatRepository.findAll();
     }
+
+    public Chat getChat(Long id) {
+        return chatRepository.findById(id).get();
+    }
+
 }

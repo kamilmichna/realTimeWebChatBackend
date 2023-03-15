@@ -3,26 +3,12 @@ CREATE TABLE IF NOT EXISTS Chats (
     PRIMARY KEY (id)
 );
 
-
-
-INSERT INTO Users (username, password, joined_at)
-VALUES ('johndoe', 'password1', CURRENT_TIMESTAMP);
-
-INSERT INTO Users (username, password, joined_at)
-VALUES ('johndoe1', 'password1', CURRENT_TIMESTAMP);
-
-INSERT INTO Users (username, password, joined_at)
-VALUES ('johndoe2', 'password1', CURRENT_TIMESTAMP);
-
-INSERT INTO Users (username, password, joined_at)
-VALUES ('johndoe3', 'password1', CURRENT_TIMESTAMP);
-
-INSERT INTO Users (username, password, joined_at)
-VALUES ('johndoe4', 'password1', CURRENT_TIMESTAMP);
-
-
-INSERT INTO Chats DEFAULT VALUES;
-INSERT INTO Chats DEFAULT VALUES;
-INSERT INTO Chats DEFAULT VALUES;
-INSERT INTO Chats DEFAULT VALUES;
-INSERT INTO Chats DEFAULT VALUES;
+--INSERT INTO Chats DEFAULT VALUES;
+--INSERT INTO Chats DEFAULT VALUES;
+--INSERT INTO Chats DEFAULT VALUES;
+--INSERT INTO Chats DEFAULT VALUES;
+--INSERT INTO Chats DEFAULT VALUES;
+--
+----
+--INSERT INTO Messages (content, state, sender_id, chat_id)
+--VALUES ('test','SEND',1,1)

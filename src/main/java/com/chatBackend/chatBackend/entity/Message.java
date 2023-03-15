@@ -1,5 +1,6 @@
 package com.chatBackend.chatBackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,9 +11,6 @@ public class Message {
     private Long id;
     private String content;
     private String state;
-    @ManyToOne
-    @JoinColumn(name = "sender_id")
-    private User sender;
 
     public Long getId() {
         return id;
@@ -38,14 +36,6 @@ public class Message {
         this.state = state;
     }
 
-    public User getSender() {
-        return sender;
-    }
-
-    public void setSender(User sender) {
-        this.sender = sender;
-    }
-
     public Chat getChat() {
         return chat;
     }
@@ -55,8 +45,9 @@ public class Message {
     }
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "chat_id")
-    private Chat chat;
+    Chat chat;
 
     public Message() {}
 }

@@ -1,37 +1,16 @@
 package com.chatBackend.chatBackend.entity;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "users")
 public class User {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Expose
-    @SerializedName("id")
-    private Long id;
-
-    @Expose
     private String username;
-
     private String password;
+    private boolean enabled;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    // getters and setters
     public String getUsername() {
         return username;
     }
@@ -48,26 +27,11 @@ public class User {
         this.password = password;
     }
 
-    public Date getJoinedAt() {
-        return joinedAt;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setJoinedAt(Date joinedAt) {
-        this.joinedAt = joinedAt;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
-
-    @Expose
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "joined_at", nullable = false)
-    private Date joinedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        joinedAt = new Date();
-    }
-
-    public User() {}
-
-
-
 }
