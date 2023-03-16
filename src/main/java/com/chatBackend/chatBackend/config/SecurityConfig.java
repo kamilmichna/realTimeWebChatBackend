@@ -22,7 +22,7 @@ public class SecurityConfig  {
     UserDetailsManager users(DataSource dataSource) {
         UserDetails admin = User.builder()
                 .username("admin")
-                .password("{noop}password")
+                .password("{noop}pass")
                 .roles("USER", "ADMIN")
                 .build();
         JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
@@ -33,10 +33,11 @@ public class SecurityConfig  {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().authenticated()
-                )
-                .formLogin(withDefaults())
+                .authorizeHttpRequests()
+                .requestMatchers("/users/register").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
                 .httpBasic(withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .headers().frameOptions().disable();

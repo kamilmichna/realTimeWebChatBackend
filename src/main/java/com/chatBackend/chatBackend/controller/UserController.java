@@ -5,10 +5,9 @@ import com.chatBackend.chatBackend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -27,6 +26,12 @@ public class UserController {
         } catch (NoSuchElementException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
     }
+
+    @PostMapping(path = "/users/register", produces = MediaType.APPLICATION_JSON_VALUE)
+    public User newUser(@RequestBody User user) {
+        return userService.createNewUser(user);
+    }
+//    @PostMapping(path = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+
 }

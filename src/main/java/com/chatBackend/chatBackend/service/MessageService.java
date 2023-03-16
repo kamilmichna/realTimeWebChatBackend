@@ -4,6 +4,7 @@ package com.chatBackend.chatBackend.service;
 import com.chatBackend.chatBackend.entity.Message;
 import com.chatBackend.chatBackend.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
