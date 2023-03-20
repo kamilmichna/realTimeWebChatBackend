@@ -28,10 +28,14 @@ public class UserController {
         }
     }
 
+    @GetMapping(path = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> onLoginCheck() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping(path = "/users/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public User newUser(@RequestBody User user) {
         return userService.createNewUser(user);
     }
-//    @PostMapping(path = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
 
 }
