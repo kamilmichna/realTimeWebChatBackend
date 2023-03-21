@@ -2,17 +2,25 @@ package com.chatBackend.chatBackend.controller;
 
 import com.chatBackend.chatBackend.entity.User;
 import com.chatBackend.chatBackend.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 
+import javax.sql.DataSource;
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 public class UserController {
+    private org.springframework.security.core.userdetails.User UserAuth;
+    @Autowired
+    DataSource dataSource;
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -33,9 +41,22 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(path = "/users/register", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User newUser(@RequestBody User user) {
-        return userService.createNewUser(user);
+    @PostMapping(path = "/users/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> newUser(@RequestBody User user) {
+
+        Optional<User> userExists = userService.findUserById(user.getUsername());
+        if (!userExists.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        UserDetails admin = UserAuth.builder()
+                .username(user.getUsername())
+                .password("{noop}pass")
+                .roles("USER")
+                .build();
+        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
+        users.createUser(admin);
+        userService.createNewUser(user);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
