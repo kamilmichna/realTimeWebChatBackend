@@ -1,11 +1,15 @@
 package com.chatBackend.chatBackend.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -17,6 +21,7 @@ import javax.sql.DataSource;
 
 import java.util.Arrays;
 
+import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -40,7 +45,7 @@ public class SecurityConfig  {
         http
                 .cors().and()
                 .authorizeHttpRequests()
-                .requestMatchers("/users/register").permitAll()
+                .requestMatchers("/h2-console**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -49,6 +54,7 @@ public class SecurityConfig  {
                 .headers().frameOptions().disable();
         return http.build();
     }
+
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
@@ -60,6 +66,7 @@ public class SecurityConfig  {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 
 
 }

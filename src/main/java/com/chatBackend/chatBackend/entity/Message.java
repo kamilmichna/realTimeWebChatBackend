@@ -50,17 +50,17 @@ public class Message {
     @JoinColumn(name = "chat_id")
     Chat chat;
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @ManyToOne
-    @JsonIgnoreProperties("messages")
-    @JoinColumn(name = "sender_username")
-    User user;
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
+//
+//    @ManyToOne
+//    @JsonIgnoreProperties("messages")
+//    @JoinColumn(name = "sender_username")
+//    User user;
     public Message() {}
 }
