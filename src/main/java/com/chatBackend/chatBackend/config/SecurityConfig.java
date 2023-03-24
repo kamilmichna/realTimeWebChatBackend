@@ -1,15 +1,18 @@
 package com.chatBackend.chatBackend.config;
 
+import com.chatBackend.chatBackend.entity.Role;
+import com.chatBackend.chatBackend.entity.User;
+import com.chatBackend.chatBackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,23 +24,17 @@ import javax.sql.DataSource;
 
 import java.util.Arrays;
 
-import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig  {
 
-    @Bean
-    UserDetailsManager users(DataSource dataSource) {
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password("{noop}pass")
-                .roles("USER", "ADMIN")
-                .build();
-        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-        users.createUser(admin);
-        return users;
+    @Autowired
+    private final UserRepository repository;
+
+    public SecurityConfig(UserRepository repository) {
+        this.repository = repository;
     }
 
     @Bean
@@ -67,6 +64,20 @@ public class SecurityConfig  {
         return source;
     }
 
+    @Bean
+    public UserDetailsService userDetailsService() {
+        User user = User.builder().firstname("Kamil").password("{noop}chuj").email("dupa@email").role(Role.USER).build();
+        repository.save(user);
+        return username -> repository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+//    @Bean
+//    public AuthenticationProvider authenticationProvider() {
+//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+//        authProvider.setUserDetailsService(userDetailsService());
+//        return authProvider;
+//    }
 
 
 }
