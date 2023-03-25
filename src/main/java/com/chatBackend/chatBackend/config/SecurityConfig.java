@@ -66,18 +66,9 @@ public class SecurityConfig  {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        User user = User.builder().firstname("Kamil").password("{noop}chuj").email("dupa@email").role(Role.USER).build();
+        User user = User.builder().firstname("Kamil").password("{noop}test").email("test@email").role(Role.USER).build();
         repository.save(user);
         return username -> repository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
-
-//    @Bean
-//    public AuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//        authProvider.setUserDetailsService(userDetailsService());
-//        return authProvider;
-//    }
-
-
 }
