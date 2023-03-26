@@ -66,9 +66,9 @@ public class SecurityConfig  {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        User user = User.builder().firstname("Kamil").password("{noop}test").email("test@email").role(Role.USER).build();
+        User user = User.builder().password("{noop}pass").username("admin").role(Role.USER).build();
         repository.save(user);
-        return username -> repository.findByEmail(username)
+        return username -> repository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }
