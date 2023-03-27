@@ -1,5 +1,7 @@
 package com.chatBackend.chatBackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -18,6 +21,9 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "_user")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class User implements UserDetails {
 
     @Id
@@ -59,8 +65,19 @@ public class User implements UserDetails {
         return true;
     }
 
+    public Set<Chat> getChats() {
+        return chats;
+    }
+
+    public void setChats(Set<Chat> chats) {
+        this.chats = chats;
+    }
+
     @Override
     public boolean isEnabled() {
         return true;
     }
+
+    @ManyToMany(mappedBy = "users",fetch = FetchType.EAGER)
+    private Set<Chat> chats;
 }

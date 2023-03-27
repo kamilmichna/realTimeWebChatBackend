@@ -42,7 +42,7 @@ public class SecurityConfig  {
         http
                 .cors().and()
                 .authorizeHttpRequests()
-                .requestMatchers("/h2-console**").permitAll()
+                .requestMatchers("/users/register", "/h2-console**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
