@@ -23,12 +23,10 @@ import java.util.Set;
 @Table(name = "_user")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+        property = "username")
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
-    private Integer id;
     private String username;
     private String password;
 

@@ -22,14 +22,10 @@ public class ChatService {
     }
 
     public boolean createChat(Chat chat) {
-        if (chat.getUsers().size() < 2) {
+        if (chat.getUsers().size() != 2) {
             return false;
         }
-//        String username = user.getUsername();
-//        boolean isUserAlreadyRegistered = !userRepo.findByUsername(username).isEmpty();
-//        if (isUserAlreadyRegistered) {
-//            return false;
-//        }
+
         chatRepo.save(chat);
         return true;
     }
