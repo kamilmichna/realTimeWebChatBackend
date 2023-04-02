@@ -3,6 +3,7 @@ package com.chatBackend.chatBackend.service;
 import com.chatBackend.chatBackend.entity.Role;
 import com.chatBackend.chatBackend.entity.User;
 import com.chatBackend.chatBackend.repository.UserRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +28,10 @@ public class UserService {
         return true;
     }
 
-    public List<User> getAllUsers() {
-        return userRepo.findAll();
+    public Optional<List<User>> getUsersAvailableToChat(User user) {
+        if (user.getChats().size() == 0) {
+            return Optional.of(userRepo.findAll());
+        }
+        return userRepo.findUnrelatedUsers(user.getUsername());
     }
 }

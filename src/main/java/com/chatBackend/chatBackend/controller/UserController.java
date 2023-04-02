@@ -1,16 +1,16 @@
 package com.chatBackend.chatBackend.controller;
 
-import com.chatBackend.chatBackend.entity.Chat;
 import com.chatBackend.chatBackend.entity.User;
 import com.chatBackend.chatBackend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -33,7 +33,8 @@ public class UserController {
     }
 
     @GetMapping
-    List<User> getAll() {
-        return userService.getAllUsers();
+    Optional<List<User>> getAll(Authentication authentication) {
+        User userDetails = (User) authentication.getPrincipal();
+        return userService.getUsersAvailableToChat(userDetails);
     }
 }

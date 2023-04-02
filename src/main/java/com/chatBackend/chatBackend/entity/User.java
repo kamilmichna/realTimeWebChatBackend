@@ -1,6 +1,7 @@
 package com.chatBackend.chatBackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,9 +22,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "_user")
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "username")
 public class User implements UserDetails {
 
     @Id
@@ -77,5 +75,6 @@ public class User implements UserDetails {
     }
 
     @ManyToMany(mappedBy = "users",fetch = FetchType.EAGER)
+    @JsonIgnore
     private Set<Chat> chats;
 }
