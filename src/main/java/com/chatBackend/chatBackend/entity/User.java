@@ -26,6 +26,7 @@ public class User implements UserDetails {
 
     @Id
     private String username;
+
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -77,4 +78,8 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "users",fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Chat> chats;
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Message> messages;
 }
