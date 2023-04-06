@@ -1,7 +1,10 @@
 package com.chatBackend.chatBackend.controller;
 
+import com.chatBackend.chatBackend.entity.Chat;
 import com.chatBackend.chatBackend.entity.User;
 import com.chatBackend.chatBackend.service.UserService;
+import jakarta.transaction.Transactional;
+import org.hibernate.Hibernate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +36,21 @@ public class UserController {
     }
 
     @GetMapping
+    @Transactional
     Optional<List<User>> getAll(Authentication authentication) {
         User userDetails = (User) authentication.getPrincipal();
-        return userService.getUsersAvailableToChat(userDetails);
+        Optional<List<User>> users = userService.getUsersAvailableToChat(userDetails);
+
+        users.ifPresent(userList -> {
+            for (User user : userList) {
+                Hibernate.initialize(user.getChats());
+
+                for (Chat chat : user.getChats()) {
+                    Hibernate.initialize(chat.getMessages());
+                }
+            }
+        });
+
+        return users;
     }
-}
+    }

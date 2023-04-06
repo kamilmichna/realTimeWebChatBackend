@@ -21,13 +21,8 @@ public class MessageController {
         this.messageService = messageService;
     }
 
-    @GetMapping
-    Optional<List<Message>> getAllMessages() {
-        return messageService.getAllMessages();
-    }
-
     @PostMapping( consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity register(@RequestBody Message mess, Authentication auth) {
+    ResponseEntity createMessage(@RequestBody Message mess, Authentication auth) {
         return ResponseEntity.ok(messageService.createMessage(mess,auth));
     }
 
